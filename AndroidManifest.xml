@@ -14,7 +14,8 @@
     
     <permission 
         android:name="com.example.yamba.permission.REFRESH"
-        android:protectionLevel="signature">
+        android:protectionLevel="signature"
+        >
         
     </permission>
 
@@ -53,8 +54,10 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".BootReceiver" >
+        <receiver android:name="com.example.yamba.RefreshScheduleReceiver" >
             <intent-filter>
+                <action android:name="com.example.yamba.TEST_BROADCAST"/>
+                <action android:name="com.example.yamba.RefreshAlarm"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>

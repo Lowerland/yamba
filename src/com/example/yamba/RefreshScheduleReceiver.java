@@ -5,17 +5,21 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class BootReceiver extends BroadcastReceiver {
-
+public class RefreshScheduleReceiver extends BroadcastReceiver {
+	
+	static PendingIntent lastOp;
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 
-		long interval = Long.parseLong(PreferenceManager
-				.getDefaultSharedPreferences(context).getString("delay",
-						"900000"));
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+
+		long interval = Long.parseLong(prefs.getString("delay", "900000"));
 		
 		PendingIntent operation = PendingIntent.getService(context, -1,
 				new Intent(YambaApp.ACTION_REFRESH),
@@ -23,8 +27,15 @@ public class BootReceiver extends BroadcastReceiver {
 
 		AlarmManager alarmManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
-				System.currentTimeMillis(), interval, operation);
+
+		alarmManager.cancel(lastOp);
+
+		if (interval > 0) {
+			alarmManager.setInexactRepeating(AlarmManager.RTC,
+					System.currentTimeMillis(), interval, operation);
+		}
+		
+		lastOp = operation;
 
 		Log.d("BootReceiver", "onReceive: delay: " + interval);
 
