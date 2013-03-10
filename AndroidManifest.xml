@@ -11,14 +11,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="com.example.yamba.permission.REFRESH"/>
-    
-    <permission 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.example.yamba.permission.REFRESH" />
+
+    <permission
         android:name="com.example.yamba.permission.REFRESH"
-        android:protectionLevel="signature"
-        >
-        
+        android:protectionLevel="signature" >
     </permission>
 
     <application
@@ -26,15 +24,14 @@
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:permission="android.permission.WRITE_EXTERNAL_STORAGE"
-        >
+        android:permission="android.permission.WRITE_EXTERNAL_STORAGE" >
         <activity
             android:name="com.example.yamba.StatusActivity"
             android:label="@string/status_update" >
         </activity>
-        <activity 
-            android:label="@string/preferences"
-            android:name=".PrefsActivity" >
+        <activity
+            android:name=".PrefsActivity"
+            android:label="@string/preferences" >
         </activity>
         <activity
             android:name=".TimelineActivity"
@@ -48,21 +45,26 @@
 
         <service android:name=".UpdaterService" >
         </service>
-        <service 
+        <service
             android:name=".RefreshService"
             android:permission="com.example.yamba.permission.REFRESH" >
-            <intent-filter >
-                <action android:name="com.example.yamba.RefreshService"/>
+            <intent-filter>
+                <action android:name="com.example.yamba.RefreshService" />
             </intent-filter>
         </service>
 
         <receiver android:name="com.example.yamba.RefreshScheduleReceiver" >
             <intent-filter>
-                <action android:name="com.example.yamba.TEST_BROADCAST"/>
-                <action android:name="com.example.yamba.RefreshAlarm"/>
+                <action android:name="com.example.yamba.TEST_BROADCAST" />
+                <action android:name="com.example.yamba.RefreshAlarm" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <provider
+            android:name=".StatusProvider"
+            android:authorities="com.example.yamba.provider" >
+        </provider>
     </application>
 
 </manifest>
